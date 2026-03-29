@@ -1,13 +1,10 @@
 package com.williamsel.sarc.core.network
 
-import SessionManager
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.navigation.NavHostController
-import coil.intercept.Interceptor
-import com.williamsel.sarc.core.navigation.NavController
-import jakarta.inject.Inject
+import com.williamsel.sarc.core.session.AuthEventBus
+import com.williamsel.sarc.core.session.SessionManager
+import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
     private val sessionManager: SessionManager
@@ -28,39 +25,9 @@ class AuthInterceptor @Inject constructor(
 
         if (response.code == 401) {
             sessionManager.clearSession()
+            AuthEventBus.emitSessionExpired()
         }
 
         return response
     }
-}
-@Composable
-fun GuardedRoute(
-    requiredRol: String,
-    sessionManager: SessionManager,
-    navController: NavHostController,
-    content: @Composable () -> Unit
-) {
-    val rolActual = sessionManager.getRol()
-
-    if (!sessionManager.isLoggedIn()) {
-        LaunchedEffect(Unit) {
-            navController.navigate(NavController.Publico.Login.route) {
-                popUpTo(0) { inclusive = true }
-            }
-        }
-        return
-    }
-
-    if (rolActual != requiredRol) {
-        LaunchedEffect(Unit) {
-            val destino = if (rolActual == "ADMIN")
-                NavController.Admin.Panel.route
-            else
-                NavController.Ciudadano.Panel.route
-            navController.navigate(destino) { popUpTo(0) { inclusive = true } }
-        }
-        return
-    }
-
-    content()
 }

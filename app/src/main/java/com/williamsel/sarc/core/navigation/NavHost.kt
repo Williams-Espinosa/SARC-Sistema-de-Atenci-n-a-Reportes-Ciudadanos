@@ -1,21 +1,14 @@
 package com.williamsel.sarc.core.navigation
 
-import NavGraph
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.rememberNavController
 import com.williamsel.sarc.core.session.AuthEventBus
+import com.williamsel.sarc.core.session.SessionManager
+import javax.inject.Inject
 
 @Composable
-fun NavHost(startDestination: String = NavController.Publico.Inicio.route) {
-    val navController = rememberNavController()
-    NavGraph(
-        navController    = navController,
-        startDestination = startDestination
-    )
-}
-@Composable
-fun SarcNavHost() {
+fun NavHost(sessionManager: SessionManager) {
     val navController = rememberNavController()
 
     LaunchedEffect(Unit) {
@@ -30,5 +23,8 @@ fun SarcNavHost() {
         }
     }
 
-    NavGraph(navController = navController)
+    NavGraph(
+        navController  = navController,
+        sessionManager = sessionManager
+    )
 }

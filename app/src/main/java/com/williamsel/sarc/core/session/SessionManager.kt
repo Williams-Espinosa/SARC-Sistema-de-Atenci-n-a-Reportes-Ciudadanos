@@ -1,6 +1,9 @@
+package com.williamsel.sarc.core.session
+
+import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class SessionManager @Inject constructor(

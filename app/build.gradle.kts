@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.animation.core.lint)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -77,4 +79,14 @@ dependencies {
     implementation(libs.com.squareup.retrofit2.retrofit)            // Retrofit
     implementation(libs.com.squareup.retrofit2.converter.json)      // JSON
     implementation(libs.io.coil.kt.coil.compose)                    // Coil
+
+    // Room (base de datos local / SQLite)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
+    // WorkManager (sincronización en background)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
 }

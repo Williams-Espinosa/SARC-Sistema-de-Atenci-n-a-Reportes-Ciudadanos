@@ -1,10 +1,12 @@
+package com.williamsel.sarc.core.network
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -12,17 +14,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttp(authInterceptor: AuthInterceptor): OkHttpClient =
-        OkHttpClient.Builder()
-            .addInterceptor(authInterceptor)
-            .build()
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl("https://tu-api.com/")
-            .client(okHttpClient)
+    fun provideSarcApi(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
 }
