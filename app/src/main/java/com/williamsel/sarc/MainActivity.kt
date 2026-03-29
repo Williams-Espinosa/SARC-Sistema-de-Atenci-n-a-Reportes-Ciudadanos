@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavGraph
+import com.williamsel.sarc.core.navigation.NavHost
 import com.williamsel.sarc.ui.theme.SarcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SarcTheme() {
-                NavGraph()
+                NavHost()
             }
         }
     }

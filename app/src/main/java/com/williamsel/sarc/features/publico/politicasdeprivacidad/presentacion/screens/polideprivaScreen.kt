@@ -1,35 +1,31 @@
-package com.sarc.politicasdeprivacidad.presentacion.screens
+package com.williamsel.sarc.politicasdeprivacidad.presentacion.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-private val SarcGreen      = Color(0xFF2E7D32)
-private val SarcGreenLight = Color(0xFFF1F8F1)
-private val SarcGreenIcon  = Color(0xFFE8F5E9)
-private val TextDark       = Color(0xFF1A2E1A)
-private val TextMid        = Color(0xFF4A5A4A)
-private val TextLight      = Color(0xFF7A8A7A)
-private val Background     = Color(0xFFF5F5F5)
-private val CardBackground = Color(0xFFFFFFFF)
+import com.williamsel.sarc.ui.theme.SarcTheme
+private val WarningBg     = Color(0xFFFFF8E1)
+private val WarningBorder = Color(0xFFFFE082)
+private val WarningText   = Color(0xFF5D4037)
+private val WarningTitle  = Color(0xFF4E342E)
+private val WarningIcon   = Color(0xFF795548)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,21 +40,15 @@ fun PolideprivaScreen(
                 title = {
                     Column {
                         Text(
-                            text = "Política de",
+                            text = "Políticas de Privacidad",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = TextDark
-                        )
-                        Text(
-                            text = "Privacidad",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = TextDark
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                         Text(
                             text = "Última actualización: 20 de marzo, 2026",
                             fontSize = 11.sp,
-                            color = TextLight
+                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
                         )
                     }
                 },
@@ -67,12 +57,12 @@ fun PolideprivaScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Volver",
-                            tint = TextDark
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = CardBackground
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         },
@@ -80,7 +70,7 @@ fun PolideprivaScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(CardBackground)
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -88,17 +78,17 @@ fun PolideprivaScreen(
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
-                        tint = TextMid,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "Volver",
-                        color = TextMid,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 14.sp
                     )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Button(
                     onClick = onBack,
                     modifier = Modifier
@@ -106,26 +96,26 @@ fun PolideprivaScreen(
                         .height(52.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = SarcGreen
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
                     Text(
-                        text = "Entendido",
+                        text = "Acepto las Políticas de Privacidad",
                         fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "© 2026 Municipio de Suchiapa, Chiapas. Todos los derechos reservados.",
                     fontSize = 10.sp,
-                    color = TextLight,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
             }
         },
-        containerColor = Background
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
 
         Column(
@@ -136,130 +126,186 @@ fun PolideprivaScreen(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
             WelcomeCard()
 
-            SectionCard(number = "1.", title = "Información que Recopilamos") {
-                SectionParagraph(
-                    "Al usar SARC, recopilamos la siguiente información para brindar " +
-                            "un servicio eficiente y seguro:"
-                )
+            SectionCard(number = "1.", title = "Información que Recopilamos", icon = Icons.Default.Info) {
+                SectionParagraph("SARC recopila información necesaria para proporcionar un servicio eficiente de atención ciudadana:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("Datos de registro: nombre, correo electrónico y contraseña cifrada")
-                CheckItem("Ubicación GPS al momento de crear un reporte")
-                CheckItem("Fotografías adjuntas a los reportes ciudadanos")
-                CheckItem("Descripción y categoría de las incidencias reportadas")
-                CheckItem("Historial de reportes realizados desde tu cuenta")
+                BulletItem("Información de registro: nombre completo, correo electrónico")
+                BulletItem("Información de los reportes: ubicación GPS, fotografías, descripciones de incidencias")
+                BulletItem("Datos técnicos: dirección IP, tipo de dispositivo")
+                BulletItem("Interacciones de uso: interacciones con la plataforma, historial de reportes")
             }
 
-            SectionCard(number = "2.", title = "Uso de la Información") {
-                SectionParagraph(
-                    "La información recopilada es utilizada exclusivamente para:"
-                )
+            SectionCard(number = "2.", title = "Cómo Utilizamos su Información", icon = Icons.Default.Settings) {
+                SectionParagraph("Los datos recopilados se utilizan exclusivamente para:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("Gestionar y dar seguimiento a los reportes ciudadanos")
-                CheckItem("Permitir a las autoridades identificar y atender las incidencias")
-                CheckItem("Enviarte notificaciones sobre el estado de tus reportes")
-                CheckItem("Mejorar el funcionamiento y la experiencia de la aplicación")
-                CheckItem("Generar estadísticas anónimas de incidencias urbanas")
+                BulletItem("Procesar y atender los reportes ciudadanos")
+                BulletItem("Mejorar los servicios")
+                BulletItem("Comunicarnos con usted sobre el estado de sus incidencias")
+                BulletItem("Generar estadísticas y análisis de incidencias")
+                BulletItem("Verificar la autenticidad de los reportes")
+                BulletItem("Cumplir con obligaciones legales y regulatorias")
             }
 
-            SectionCard(number = "3.", title = "Compartición de Datos") {
-                SectionParagraph(
-                    "El Municipio de Suchiapa se compromete a:"
-                )
+            SectionCard(number = "3.", title = "Protección de Datos", icon = Icons.Default.Lock) {
+                SectionParagraph("El Municipio de Suchiapa implementa medidas de seguridad para proteger su información:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("No vender ni comercializar tu información personal a terceros")
-                CheckItem("Compartir los reportes únicamente con las áreas municipales responsables")
-                CheckItem("No divulgar tus datos de contacto sin tu consentimiento expreso")
-                CheckItem("Utilizar proveedores de servicios con estándares de seguridad equivalentes")
+                BulletItem("Cifrado de datos en tránsito y almacenamiento")
+                BulletItem("Controles de acceso restringidos al personal autorizado")
+                BulletItem("Auditorías de seguridad periódicas")
+                BulletItem("Respaldo regular de información")
+                BulletItem("Protocolos de respuesta ante incidentes de seguridad")
             }
 
-            SectionCard(number = "4.", title = "Almacenamiento y Seguridad") {
-                SectionParagraph(
-                    "Tu información es protegida mediante las siguientes medidas:"
-                )
+            SectionCard(number = "4.", title = "Compartición de Información", icon = Icons.Default.Share) {
+                SectionParagraph("Su información NO será compartida con terceros, excepto en los siguientes casos:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("Cifrado de datos en tránsito mediante protocolo HTTPS")
-                CheckItem("Almacenamiento seguro en servidores en la nube con acceso restringido")
-                CheckItem("Contraseñas almacenadas con hash criptográfico irreversible")
-                CheckItem("Acceso a datos personales limitado al personal autorizado")
-                CheckItem("Monitoreo continuo para detectar accesos no autorizados")
+                BulletItem("Con autoridades competentes cuando sea requerido legalmente")
+                BulletItem("Con personal municipal responsable de atender las incidencias")
+                BulletItem("Con su consentimiento explícito")
+                BulletItem("Información agregada y anónima para estadísticas públicas")
             }
 
-            SectionCard(number = "5.", title = "Tus Derechos (ARCO)") {
-                SectionParagraph(
-                    "Conforme a la Ley Federal de Protección de Datos Personales en " +
-                            "Posesión de los Particulares, tienes derecho a:"
-                )
+            SectionCard(number = "5.", title = "Sus Derechos ARCO", icon = Icons.Default.Person) {
+                SectionParagraph("De conformidad con la Ley Federal de Protección de Datos Personales, usted tiene derecho a:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("Acceso: consultar los datos personales que tenemos de ti")
-                CheckItem("Rectificación: corregir datos inexactos o incompletos")
-                CheckItem("Cancelación: solicitar la eliminación de tus datos")
-                CheckItem("Oposición: oponerte al uso de tus datos para fines específicos")
+                BulletItem("Acceder a sus datos personales en nuestra posesión")
+                BulletItem("Rectificar datos incorrectos o incompletos")
+                BulletItem("Cancelar su cuenta y datos asociados")
+                BulletItem("Oponerse al uso de sus datos para fines específicos")
+                BulletItem("Revocar el consentimiento otorgado")
+                BulletItem("Limitar el uso o divulgación de sus datos")
+                Spacer(modifier = Modifier.height(10.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                ) {
+                    Text(
+                        text = "Nota: Para ejercer estos derechos, contáctanos a: privacidad@municipiosuchiapa.gob.mx",
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(12.dp),
+                        lineHeight = 18.sp
+                    )
+                }
             }
 
-            SectionCard(number = "6.", title = "Permisos de la Aplicación") {
-                SectionParagraph(
-                    "SARC solicita los siguientes permisos en tu dispositivo:"
-                )
+            SectionCard(number = "6.", title = "Fotografías y Ubicación", icon = Icons.Default.LocationOn) {
+                SectionParagraph("Aspectos importantes sobre fotos y ubicación GPS:")
                 Spacer(modifier = Modifier.height(8.dp))
-                CheckItem("Cámara: para capturar fotografías de las incidencias a reportar")
-                CheckItem("Ubicación: para registrar el lugar exacto de cada reporte")
-                CheckItem("Almacenamiento: para guardar imágenes temporalmente antes de subirlas")
-                CheckItem("Internet: para sincronizar reportes con el servidor municipal")
+                BulletItem("Las fotografías se utilizan exclusivamente para documentar incidencias")
+                BulletItem("No compartimos rostros identificables de personas sin su consentimiento")
+                BulletItem("La ubicación GPS se utiliza para geolocalizar la incidencia reportada")
+                BulletItem("Puede desactivar el GPS de su dispositivo, pero deberá ingresar la ubicación manualmente")
+                BulletItem("Las fotos pueden ser revisadas por personal municipal autorizado")
+            }
+
+            SectionCard(number = "7.", title = "Retención de Datos", icon = Icons.Default.DateRange) {
+                SectionParagraph("Conservamos su información durante:")
                 Spacer(modifier = Modifier.height(8.dp))
+                BulletItem("Reportes activos: mientras dure el proceso de atención")
+                BulletItem("Reportes resueltos: hasta 5 años para fines estadísticos y de auditoría")
+                BulletItem("Datos de cuenta: mientras mantenga su cuenta")
+                BulletItem("Cuentas inactivas: se pueden eliminar después de 2 años sin actividad")
+                BulletItem("Puede solicitar la eliminación de sus datos en cualquier momento")
+            }
+
+            SectionCard(number = "8.", title = "Cookies y Tecnologías Similares", icon = Icons.Default.Notifications) {
+                SectionParagraph("SARC utiliza cookies y tecnologías similares para:")
+                Spacer(modifier = Modifier.height(8.dp))
+                BulletItem("Mantener su sesión activa de forma segura")
+                BulletItem("Recordar sus preferencias de usuario")
+                BulletItem("Analizar el uso de la plataforma para mejorarla")
+                BulletItem("Puede configurar su navegador para rechazar cookies, aunque esto puede afectar la funcionalidad")
+            }
+
+            SectionCard(number = "9.", title = "Menores de Edad", icon = Icons.Default.Face) {
                 SectionParagraph(
-                    "Puedes revocar estos permisos en cualquier momento desde la " +
-                            "configuración de tu dispositivo."
+                    "SARC está diseñada para usuarios mayores de 18 años. No recopilamos " +
+                            "información de menores sin el consentimiento de sus padres o tutores legales."
                 )
             }
 
-            SectionCard(number = "7.", title = "Retención de Datos") {
+            SectionCard(number = "10.", title = "Cambios a esta Política", icon = Icons.Default.Edit) {
                 SectionParagraph(
-                    "Conservamos tu información personal mientras tu cuenta esté activa " +
-                            "o sea necesaria para prestar el servicio. Los reportes cerrados se " +
-                            "conservan en forma anonimizada con fines estadísticos. " +
-                            "Puedes solicitar la eliminación de tu cuenta y datos en cualquier " +
-                            "momento escribiendo a contacto@municipiosuchiapa.gob.mx."
+                    "El Municipio de Suchiapa se reserva el derecho de modificar esta " +
+                            "Política de Privacidad. Los cambios serán notificados a través de " +
+                            "la plataforma y por correo electrónico. El uso continuado del servicio " +
+                            "después de los cambios constituye su aceptación de la nueva política."
                 )
             }
 
-            SectionCard(number = "8.", title = "Cambios a esta Política") {
-                SectionParagraph(
-                    "El Municipio de Suchiapa se reserva el derecho de actualizar esta " +
-                            "Política de Privacidad en cualquier momento. Los cambios serán " +
-                            "notificados a través de la aplicación y la fecha de última " +
-                            "actualización será revisada en la parte superior de esta pantalla."
-                )
-            }
-
-            SectionCard(number = "9.", title = "Contacto") {
-                SectionParagraph(
-                    "Para ejercer tus derechos ARCO o para preguntas sobre esta " +
-                            "Política de Privacidad, contáctanos a:"
-                )
+            SectionCard(number = "11.", title = "Contacto", icon = Icons.Default.Email) {
+                SectionParagraph("Para preguntas, comentarios o solicitudes relacionadas con esta Política de Privacidad:")
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "contacto@municipiosuchiapa.gob.mx",
-                    fontSize = 13.sp,
-                    color = SarcGreen,
-                    fontWeight = FontWeight.Bold
-                )
+                BulletItem("Correo electrónico: privacidad@municipiosuchiapa.gob.mx")
+                BulletItem("Teléfono: +52 961 XXX XXXX")
+                BulletItem("Dirección: Palacio Municipal, Suchiapa, Chiapas, México")
+                BulletItem("Horario de atención: Lunes a Viernes, 8:00 AM - 4:00 PM")
+            }
+
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = WarningBg),
+                border = BorderStroke(1.dp, WarningBorder)
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .background(WarningBorder, CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Warning,
+                            contentDescription = null,
+                            tint = WarningIcon,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                    Column {
+                        Text(
+                            text = "Aviso Importante",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = WarningTitle
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "Esta Política de Privacidad se rige por la Ley Federal de " +
+                                    "Protección de Datos Personales en Posesión de los Particulares, " +
+                                    "así como por las disposiciones aplicables en materia de protección " +
+                                    "de datos personales en el Estado de Chiapas.",
+                            fontSize = 12.sp,
+                            color = WarningText,
+                            lineHeight = 18.sp
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
-
-
 @Composable
 private fun WelcomeCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = CardBackground),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -270,31 +316,42 @@ private fun WelcomeCard() {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(SarcGreenIcon, CircleShape),
+                    .background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        CircleShape
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = null,
-                    tint = SarcGreen,
-                    modifier = Modifier.size(20.dp)
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(22.dp)
                 )
             }
             Column {
                 Text(
-                    text = "Tu privacidad es nuestra prioridad",
-                    fontSize = 14.sp,
+                    text = "Su Privacidad es Importante",
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
-                    color = TextDark
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    text = "Esta Política de Privacidad describe cómo el Sistema de " +
-                            "Atención y Reporte Ciudadano (SARC) del Municipio de Suchiapa, " +
-                            "Chiapas, recopila, usa y protege tu información personal. " +
-                            "Por favor, léela cuidadosamente antes de utilizar nuestro servicio.",
+                    text = "El Municipio de Suchiapa, Chiapas, está comprometido con la " +
+                            "protección de su privacidad y la seguridad de sus datos personales. " +
+                            "Esta Política de Privacidad explica cómo recopilamos, usamos, " +
+                            "protegemos y compartimos su información cuando utiliza el Sistema " +
+                            "de Atención y Reporte Ciudadano (SARC).",
                     fontSize = 13.sp,
-                    color = TextMid,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 19.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Al utilizar SARC, usted acepta las prácticas descritas en esta política.",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     lineHeight = 19.sp
                 )
             }
@@ -306,22 +363,46 @@ private fun WelcomeCard() {
 private fun SectionCard(
     number: String,
     title: String,
+    icon: ImageVector,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = CardBackground),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text = "$number $title",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = TextDark
-            )
-            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primaryContainer,
+                            CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Text(
+                    text = "$number $title",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
             content()
         }
     }
@@ -332,13 +413,13 @@ private fun SectionParagraph(text: String) {
     Text(
         text = text,
         fontSize = 13.sp,
-        color = TextMid,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         lineHeight = 19.sp
     )
 }
 
 @Composable
-private fun CheckItem(text: String) {
+private fun BulletItem(text: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -346,26 +427,19 @@ private fun CheckItem(text: String) {
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .size(20.dp)
-                .background(SarcGreenIcon, CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = null,
-                tint = SarcGreen,
-                modifier = Modifier.size(12.dp)
-            )
-        }
+        Text(
+            text = "•",
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 1.dp)
+        )
         Text(
             text = text,
             fontSize = 13.sp,
-            color = TextMid,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             lineHeight = 19.sp,
             modifier = Modifier.weight(1f)
         )
     }
 }
-
