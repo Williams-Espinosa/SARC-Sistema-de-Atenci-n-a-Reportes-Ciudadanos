@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.williamsel.sarc.core.navigation.NavGraph
+import androidx.navigation.NavGraph
 import com.williamsel.sarc.ui.theme.SarcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
