@@ -1,21 +1,51 @@
 package com.williamsel.sarc.features.publico.login.data.repositories
 
+import com.williamsel.sarc.features.publico.login.data.datasource.GoogleAuthUiClient
+import com.williamsel.sarc.features.publico.login.data.datasource.GoogleSignInResult
 import com.williamsel.sarc.features.publico.login.data.datasource.api.LoginApi
+import com.williamsel.sarc.features.publico.login.data.datasource.api.LoginRequestDto
 import com.williamsel.sarc.features.publico.login.data.mapper.toDomain
+import com.williamsel.sarc.features.publico.login.data.models.GoogleLoginRequestDto
 import com.williamsel.sarc.features.publico.login.domain.entities.Login
 import com.williamsel.sarc.features.publico.login.domain.repositories.LoginRepository
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
-    private val api: LoginApi
+    private val api: LoginApi,
+    private val googleAuthUiClient: GoogleAuthUiClient
 ) : LoginRepository {
 
     override suspend fun login(correo: String, contrasena: String): Login? {
         return try {
-            val response = api.login(correo, contrasena)
-            response.toDomain()
+            api.login(LoginRequestDto(correo, contrasena)).toDomain()
         } catch (e: Exception) {
             null
         }
     }
+
+    override suspend fun loginConGoogle(idToken: String): Login? {
+        return try {
+            api.loginConGoogle(GoogleLoginRequestDto(idToken)).toDomain()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Restaura la sesión al iniciar la app:
+     * 1. Obtiene un idToken fresco de Firebase (si hay sesión activa)
+     * 2. Lo envía al backend para validar y obtener JWT + rol actualizados
+     */
+    override suspend fun restaurarSesion(): Login? {
+        return try {
+            val freshToken = googleAuthUiClient.getFreshIdToken() ?: return null
+            api.loginConGoogle(GoogleLoginRequestDto(freshToken)).toDomain()
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    override fun isUserSignedIn(): Boolean = googleAuthUiClient.isUserSignedIn()
+
+    override suspend fun signOut() = googleAuthUiClient.signOut()
 }

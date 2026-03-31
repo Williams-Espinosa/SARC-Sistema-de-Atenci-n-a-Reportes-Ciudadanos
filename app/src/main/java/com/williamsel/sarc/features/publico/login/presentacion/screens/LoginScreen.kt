@@ -1,5 +1,10 @@
 package com.williamsel.sarc.features.publico.login.presentacion.screens
 
+import android.app.Activity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -24,30 +29,63 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.williamsel.sarc.R
 import com.williamsel.sarc.features.publico.login.presentacion.viewmodels.LoginViewModel
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: (rol: String) -> Unit,
-    onCrearCuenta: () -> Unit = {},
-    onVolverInicio: () -> Unit = {},
+    onCrearCuenta: () -> Unit,
+    onVolverInicio: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
     var contrasenaVisible by remember { mutableStateOf(false) }
+
+    val googleLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            viewModel.onGoogleSignInResult(result.data)
+        } else {
+            viewModel.onGoogleSignInResult(null)
+        }
+    }
 
     LaunchedEffect(state.isSuccess) {
         if (state.isSuccess) {
             onLoginSuccess(state.rol ?: "CIUDADANO")
         }
     }
-
+    if (!state.sessionChecked) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primary),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Box(
+                    modifier = Modifier
+                        .size(88.dp)
+                        .background(
+                            MaterialTheme.colorScheme.onPrimary,
+                            RoundedCornerShape(22.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "S",
+                        fontSize = 44.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary)
+            }
+        }
+        return
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,6 +106,7 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 32.dp)
             ) {
+
                 Box(
                     modifier = Modifier
                         .size(80.dp)
@@ -105,7 +144,16 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 OutlinedButton(
-                    onClick = viewModel::loginConGoogle,
+                    onClick = {
+                        viewModel.iniciarLoginConGoogle { intentSender ->
+                            intentSender?.let {
+                                googleLauncher.launch(
+                                    IntentSenderRequest.Builder(it).build()
+                                )
+                            }
+                        }
+                    },
+                    enabled = !state.isGoogleLoading && !state.isLoading,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp),
@@ -119,18 +167,26 @@ fun LoginScreen(
                         MaterialTheme.colorScheme.surfaceVariant
                     )
                 ) {
-                    Text(
-                        text = "G",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "Continuar con Google",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
-                    )
+                    if (state.isGoogleLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
+                        Text(
+                            text = "G",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "Continuar con Google",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -157,7 +213,6 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
-
                 OutlinedTextField(
                     value = state.correo,
                     onValueChange = viewModel::onCorreoChange,
@@ -173,7 +228,7 @@ fun LoginScreen(
                     },
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Email,
+                            Icons.Default.Email,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -210,7 +265,7 @@ fun LoginScreen(
                     },
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Lock,
+                            Icons.Default.Lock,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -218,16 +273,22 @@ fun LoginScreen(
                     trailingIcon = {
                         IconButton(onClick = { contrasenaVisible = !contrasenaVisible }) {
                             Icon(
-                                imageVector = if (contrasenaVisible) Icons.Default.Visibility
-                                else Icons.Default.VisibilityOff,
-                                contentDescription = if (contrasenaVisible) "Ocultar contraseña"
-                                else "Ver contraseña",
+                                imageVector = if (contrasenaVisible)
+                                    Icons.Default.Visibility
+                                else
+                                    Icons.Default.VisibilityOff,
+                                contentDescription = if (contrasenaVisible)
+                                    "Ocultar contraseña"
+                                else
+                                    "Mostrar contraseña",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     },
-                    visualTransformation = if (contrasenaVisible) VisualTransformation.None
-                    else PasswordVisualTransformation(),
+                    visualTransformation = if (contrasenaVisible)
+                        VisualTransformation.None
+                    else
+                        PasswordVisualTransformation(),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier
@@ -244,9 +305,9 @@ fun LoginScreen(
                         focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 )
-                if (state.errorMessage != null) {
+                AnimatedVisibility(visible = state.errorMessage != null) {
                     Text(
-                        text = state.errorMessage!!,
+                        text = state.errorMessage ?: "",
                         color = MaterialTheme.colorScheme.error,
                         fontSize = 13.sp,
                         modifier = Modifier
@@ -259,7 +320,7 @@ fun LoginScreen(
 
                 Button(
                     onClick = viewModel::login,
-                    enabled = !state.isLoading,
+                    enabled = !state.isLoading && !state.isGoogleLoading,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp),
@@ -269,11 +330,19 @@ fun LoginScreen(
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
-                    Text(
-                        text = "Iniciar Sesión",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp
-                    )
+                    if (state.isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(22.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Iniciar Sesión",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(14.dp))
@@ -287,7 +356,10 @@ fun LoginScreen(
                         fontSize = 13.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    TextButton(onClick = onCrearCuenta, contentPadding = PaddingValues(0.dp)) {
+                    TextButton(
+                        onClick = onCrearCuenta,
+                        contentPadding = PaddingValues(0.dp)
+                    ) {
                         Text(
                             text = "Crear Cuenta",
                             fontSize = 13.sp,
@@ -297,9 +369,10 @@ fun LoginScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(2.dp))
-
-                TextButton(onClick = onVolverInicio, contentPadding = PaddingValues(0.dp)) {
+                TextButton(
+                    onClick = onVolverInicio,
+                    contentPadding = PaddingValues(0.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = null,
@@ -322,37 +395,6 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
-            }
-        }
-
-        if (state.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    val composition by rememberLottieComposition(
-                        LottieCompositionSpec.RawRes(R.raw.cargandoVerde)
-                    )
-                    val progress by animateLottieCompositionAsState(
-                        composition = composition,
-                        iterations = LottieConstants.IterateForever
-                    )
-                    LottieAnimation(
-                        composition = composition,
-                        progress = { progress },
-                        modifier = Modifier.size(120.dp)
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = "Verificando credenciales...",
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
             }
         }
     }
