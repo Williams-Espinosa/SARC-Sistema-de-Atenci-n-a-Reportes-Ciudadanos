@@ -24,9 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.williamsel.sarc.core.session.SessionManager
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.williamsel.sarc.R
 import com.williamsel.sarc.features.publico.login.presentacion.viewmodels.LoginViewModel
-import com.williamsel.sarc.ui.theme.SarcTheme
 
 @Composable
 fun LoginScreen(
@@ -64,7 +68,6 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 32.dp)
             ) {
-
                 Box(
                     modifier = Modifier
                         .size(80.dp)
@@ -103,23 +106,43 @@ fun LoginScreen(
 
                 OutlinedButton(
                     onClick = viewModel::loginConGoogle,
-                    modifier = Modifier.fillMaxWidth().height(48.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.outlinedButtonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant,
                         contentColor = MaterialTheme.colorScheme.onSurface
                     ),
-                    border = androidx.compose.foundation.BorderStroke(0.dp, MaterialTheme.colorScheme.surfaceVariant)
+                    border = androidx.compose.foundation.BorderStroke(
+                        0.dp,
+                        MaterialTheme.colorScheme.surfaceVariant
+                    )
                 ) {
-                    Text(text = "G", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    Text(
+                        text = "G",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                     Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Continuar con Google", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        text = "Continuar con Google",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    HorizontalDivider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    HorizontalDivider(
+                        modifier = Modifier.weight(1f),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
                     Text(
                         text = "  O CONTINUA CON EMAIL  ",
                         fontSize = 10.sp,
@@ -127,7 +150,10 @@ fun LoginScreen(
                         fontWeight = FontWeight.SemiBold,
                         letterSpacing = 0.5.sp
                     )
-                    HorizontalDivider(modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.outlineVariant)
+                    HorizontalDivider(
+                        modifier = Modifier.weight(1f),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -135,14 +161,28 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = state.correo,
                     onValueChange = viewModel::onCorreoChange,
-                    placeholder = { Text("tu@correo.com", color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                    label = { Text("Correo electrónico", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp) },
+                    placeholder = {
+                        Text("tu@correo.com", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    },
+                    label = {
+                        Text(
+                            "Correo electrónico",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontSize = 13.sp
+                        )
+                    },
                     leadingIcon = {
-                        Icon(imageVector = Icons.Default.Email, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Icon(
+                            imageVector = Icons.Default.Email,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -158,24 +198,41 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = state.contrasena,
                     onValueChange = viewModel::onContrasenaChange,
-                    placeholder = { Text("••••••••", color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                    label = { Text("Contraseña", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp) },
+                    placeholder = {
+                        Text("••••••••", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    },
+                    label = {
+                        Text(
+                            "Contraseña",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontSize = 13.sp
+                        )
+                    },
                     leadingIcon = {
-                        Icon(imageVector = Icons.Default.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     },
                     trailingIcon = {
                         IconButton(onClick = { contrasenaVisible = !contrasenaVisible }) {
                             Icon(
-                                imageVector = if (contrasenaVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
-                                contentDescription = if (contrasenaVisible) "Ocultar contraseña" else "Ver contraseña",
+                                imageVector = if (contrasenaVisible) Icons.Default.Visibility
+                                else Icons.Default.VisibilityOff,
+                                contentDescription = if (contrasenaVisible) "Ocultar contraseña"
+                                else "Ver contraseña",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     },
-                    visualTransformation = if (contrasenaVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    visualTransformation = if (contrasenaVisible) VisualTransformation.None
+                    else PasswordVisualTransformation(),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
@@ -187,13 +244,14 @@ fun LoginScreen(
                         focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 )
-
                 if (state.errorMessage != null) {
                     Text(
                         text = state.errorMessage!!,
                         color = MaterialTheme.colorScheme.error,
                         fontSize = 13.sp,
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
                     )
                 }
 
@@ -202,30 +260,40 @@ fun LoginScreen(
                 Button(
                     onClick = viewModel::login,
                     enabled = !state.isLoading,
-                    modifier = Modifier.fillMaxWidth().height(52.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(22.dp),
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            strokeWidth = 2.dp
-                        )
-                    } else {
-                        Text(text = "Iniciar Sesión", fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                    }
+                    Text(
+                        text = "Iniciar Sesión",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "¿No tienes cuenta? ", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "¿No tienes cuenta? ",
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     TextButton(onClick = onCrearCuenta, contentPadding = PaddingValues(0.dp)) {
-                        Text(text = "Crear Cuenta", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                        Text(
+                            text = "Crear Cuenta",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
                     }
                 }
 
@@ -239,7 +307,11 @@ fun LoginScreen(
                         modifier = Modifier.size(14.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = "Volver al inicio", fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(
+                        text = "Volver al inicio",
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -250,6 +322,37 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
+            }
+        }
+
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.75f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val composition by rememberLottieComposition(
+                        LottieCompositionSpec.RawRes(R.raw.cargandoVerde)
+                    )
+                    val progress by animateLottieCompositionAsState(
+                        composition = composition,
+                        iterations = LottieConstants.IterateForever
+                    )
+                    LottieAnimation(
+                        composition = composition,
+                        progress = { progress },
+                        modifier = Modifier.size(120.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = "Verificando credenciales...",
+                        fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Medium
+                    )
+                }
             }
         }
     }
