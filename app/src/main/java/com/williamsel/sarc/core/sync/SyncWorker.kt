@@ -1,15 +1,11 @@
 package com.williamsel.sarc.core.sync
 
+
 import android.content.Context
+import androidx.compose.ui.unit.Constraints
 import androidx.hilt.work.HiltWorker
+import androidx.work.*
 import androidx.work.BackoffPolicy
-import androidx.work.Constraints
-import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
@@ -22,7 +18,7 @@ class SyncWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            // api.sincronizar()
+            //api.sincronizar()
             Result.success()
         } catch (e: Exception) {
             Result.retry()

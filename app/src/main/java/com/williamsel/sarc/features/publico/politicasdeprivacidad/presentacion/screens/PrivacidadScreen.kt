@@ -1,4 +1,4 @@
-package com.williamsel.sarc.politicasdeprivacidad.presentacion.screens
+package com.williamsel.sarc.features.publico.politicasdeprivacidad.presentacion.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
@@ -23,7 +23,7 @@ import com.williamsel.sarc.ui.theme.SarcTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PolideprivaScreen(
+fun PrivacidadScreen(
     onBack: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
@@ -303,9 +303,7 @@ private fun WelcomeCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -316,10 +314,7 @@ private fun WelcomeCard() {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        CircleShape
-                    ),
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -369,9 +364,7 @@ private fun SectionCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -382,10 +375,7 @@ private fun SectionCard(
                 Box(
                     modifier = Modifier
                         .size(36.dp)
-                        .background(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            CircleShape
-                        ),
+                        .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -410,36 +400,23 @@ private fun SectionCard(
 
 @Composable
 private fun SectionParagraph(text: String) {
-    Text(
-        text = text,
-        fontSize = 13.sp,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        lineHeight = 19.sp
-    )
+    Text(text = text, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 19.sp)
 }
 
 @Composable
 private fun BulletItem(text: String) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Text(
-            text = "•",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 1.dp)
+            text = "•", fontSize = 16.sp, color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 1.dp)
         )
         Text(
-            text = text,
-            fontSize = 13.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = 19.sp,
-            modifier = Modifier.weight(1f)
+            text = text, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            lineHeight = 19.sp, modifier = Modifier.weight(1f)
         )
     }
 }

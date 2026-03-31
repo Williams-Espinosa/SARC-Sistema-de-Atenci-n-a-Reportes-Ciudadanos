@@ -41,8 +41,10 @@ fun NavGraph(
 
         composable(NavController.Publico.Inicio.route) {
             InicioScreen(
-                onNavigateToLogin    = { navController.navigate(NavController.Publico.Login.route) },
-                onNavigateToRegistro = { navController.navigate(NavController.Publico.Registro.route) }
+                onIniciarSesion = { navController.navigate(NavController.Publico.Login.route) },
+                onCrearCuenta   = { navController.navigate(NavController.Publico.Registro.route) },
+                onTerminos      = { navController.navigate(NavController.Publico.Terminos.route) },
+                onPrivacidad    = { navController.navigate(NavController.Publico.Privacidad.route) }
             )
         }
 

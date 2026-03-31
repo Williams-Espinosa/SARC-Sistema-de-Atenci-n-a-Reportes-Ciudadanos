@@ -1,4 +1,4 @@
-package com.williamsel.sarc.presentacion.screens
+package com.williamsel.sarc.features.publico.incio.presentacion.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -236,3 +236,8 @@ private fun FeatureCard(
     }
 }
 
+@Preview
+@Composable
+fun InicioScreenPreview() {
+    SarcTheme { InicioScreen() }
+}

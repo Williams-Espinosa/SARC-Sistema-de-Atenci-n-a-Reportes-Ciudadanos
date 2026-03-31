@@ -1,4 +1,4 @@
-package com.williamsel.sarc.terminosycondiciones.presentacion.screens
+package com.williamsel.sarc.features.publico.terminosycondiciones.presentacion.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import com.williamsel.sarc.ui.theme.SarcTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TermiycondiScreen(
+fun TerminosScreen(
     onBack: () -> Unit = {}
 ) {
     val scrollState = rememberScrollState()
@@ -33,13 +33,7 @@ fun TermiycondiScreen(
                 title = {
                     Column {
                         Text(
-                            text = "Términos y",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "Condiciones",
+                            text = "Términos y Condiciones",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -81,29 +75,19 @@ fun TermiycondiScreen(
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "Volver",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 14.sp
-                    )
+                    Text(text = "Volver", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 14.sp)
                 }
                 Spacer(modifier = Modifier.height(6.dp))
                 Button(
                     onClick = onBack,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
+                    modifier = Modifier.fillMaxWidth().height(52.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 ) {
-                    Text(
-                        text = "Acepto los Términos y Condiciones",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Text(text = "Acepto los Términos y Condiciones", fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -161,9 +145,7 @@ fun TermiycondiScreen(
             }
 
             SectionCard(number = "4.", title = "Contenido Generado por Usuarios", icon = Icons.Default.Create) {
-                SectionParagraph(
-                    "Todo contenido enviado a través de SARC (fotos, descripciones, ubicaciones):"
-                )
+                SectionParagraph("Todo contenido enviado a través de SARC (fotos, descripciones, ubicaciones):")
                 Spacer(modifier = Modifier.height(8.dp))
                 CheckItem("Puede ser revisado por personal municipal")
                 CheckItem("Será utilizado exclusivamente para atender y resolver las incidencias reportadas")
@@ -230,14 +212,13 @@ fun TermiycondiScreen(
         }
     }
 }
+
 @Composable
 private fun WelcomeCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
@@ -248,10 +229,7 @@ private fun WelcomeCard() {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(
-                        MaterialTheme.colorScheme.primaryContainer,
-                        CircleShape
-                    ),
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -293,9 +271,7 @@ private fun SectionCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -306,10 +282,7 @@ private fun SectionCard(
                 Box(
                     modifier = Modifier
                         .size(36.dp)
-                        .background(
-                            MaterialTheme.colorScheme.primaryContainer,
-                            CircleShape
-                        ),
+                        .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -334,30 +307,20 @@ private fun SectionCard(
 
 @Composable
 private fun SectionParagraph(text: String) {
-    Text(
-        text = text,
-        fontSize = 13.sp,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        lineHeight = 19.sp
-    )
+    Text(text = text, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, lineHeight = 19.sp)
 }
 
 @Composable
 private fun CheckItem(text: String) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Box(
             modifier = Modifier
                 .size(20.dp)
-                .background(
-                    MaterialTheme.colorScheme.primaryContainer,
-                    CircleShape
-                ),
+                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -368,11 +331,8 @@ private fun CheckItem(text: String) {
             )
         }
         Text(
-            text = text,
-            fontSize = 13.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            lineHeight = 19.sp,
-            modifier = Modifier.weight(1f)
+            text = text, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            lineHeight = 19.sp, modifier = Modifier.weight(1f)
         )
     }
 }
