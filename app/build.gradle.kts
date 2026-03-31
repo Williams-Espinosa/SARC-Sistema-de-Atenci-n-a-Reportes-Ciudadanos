@@ -85,6 +85,10 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
+    implementation("com.google.android.gms:play-services-location:21.2.0") //Mpas google
+
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
     // WorkManager (sincronización en background)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.hilt.work)

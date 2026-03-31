@@ -67,7 +67,6 @@ fun LoginScreen(
                     .padding(horizontal = 24.dp, vertical = 32.dp)
             ) {
 
-                // ── Logo ──────────────────────────────────────────────────
                 Box(
                     modifier = Modifier
                         .size(80.dp)
@@ -104,7 +103,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // ── Botón Google ──────────────────────────────────────────
                 OutlinedButton(
                     onClick = viewModel::loginConGoogle,
                     modifier = Modifier
@@ -134,7 +132,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // ── Divider ───────────────────────────────────────────────
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
@@ -158,7 +155,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // ── Campo Correo ──────────────────────────────────────────
                 OutlinedTextField(
                     value = state.correo,
                     onValueChange = viewModel::onCorreoChange,
@@ -199,7 +195,6 @@ fun LoginScreen(
                     )
                 )
 
-                // ── Campo Contraseña ──────────────────────────────────────
                 OutlinedTextField(
                     value = state.contrasena,
                     onValueChange = viewModel::onContrasenaChange,
@@ -259,7 +254,6 @@ fun LoginScreen(
                     )
                 )
 
-                // ── Error ─────────────────────────────────────────────────
                 if (state.errorMessage != null) {
                     Text(
                         text = state.errorMessage,
@@ -273,7 +267,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                // ── Botón Iniciar Sesión ───────────────────────────────────
                 Button(
                     onClick = viewModel::login,
                     enabled = !state.isLoading,
@@ -303,7 +296,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // ── Crear Cuenta ──────────────────────────────────────────
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
@@ -328,7 +320,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(2.dp))
 
-                // ── Volver al inicio ──────────────────────────────────────
                 TextButton(
                     onClick = onVolverInicio,
                     contentPadding = PaddingValues(0.dp)
@@ -349,7 +340,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // ── Footer ────────────────────────────────────────────────
+
                 Text(
                     text = "Municipio de Suchiapa, Chiapas 2026",
                     fontSize = 10.sp,
@@ -358,14 +349,5 @@ fun LoginScreen(
                 )
             }
         }
-    }
-}
-
-// ── Preview ───────────────────────────────────────────────────────────────────
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun LoginScreenPreview() {
-    SarcTheme {
-        LoginScreen(onLoginSuccess = {})
     }
 }

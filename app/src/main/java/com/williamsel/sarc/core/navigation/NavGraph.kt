@@ -21,8 +21,6 @@ import com.williamsel.sarc.features.administrador.paneladmin.presentacion.screen
 import com.williamsel.sarc.features.administrador.mapaadmin.presentacion.screens.MapaAdminScreen
 import com.williamsel.sarc.features.administrador.reportesadmin.presentacion.screens.ReportesAdminScreen
 import com.williamsel.sarc.features.administrador.estayrepoadmin.presentacion.screens.EstadoRepoAdminScreen
-import com.williamsel.sarc.login.presentacion.screens.LoginScreen
-import com.williamsel.sarc.presentacion.screens.InicioScreen
 
 @Composable
 fun NavGraph(
@@ -41,7 +39,7 @@ fun NavGraph(
         startDestination = startDestination
     ) {
 
-        composable(AppRoutes.Publico.Inicio.route) {
+        composable(NavController.Publico.Inicio.route) {
             InicioScreen(
                 onNavigateToLogin    = { navController.navigate(NavController.Publico.Login.route) },
                 onNavigateToRegistro = { navController.navigate(NavController.Publico.Registro.route) }
@@ -68,8 +66,8 @@ fun NavGraph(
         composable(NavController.Publico.Registro.route) {
             RegistroScreen(
                 onRegistroExitoso = {
-                    navController.navigate(AppRoutes.Ciudadano.Panel.route) {
-                        popUpTo(AppRoutes.Publico.Inicio.route) { inclusive = true }
+                    navController.navigate(NavController.Ciudadano.Panel.route) {
+                        popUpTo(NavController.Publico.Inicio.route) { inclusive = true }
                     }
                 },
                 onBack = { navController.popBackStack() }
@@ -91,12 +89,12 @@ fun NavGraph(
                 navController  = navController
             ) {
                 PanelCiudadanoScreen(
-                    onNavigateToMapa         = { navController.navigate(AppRoutes.Ciudadano.Mapa.route) },
-                    onNavigateToCrearReporte = { navController.navigate(AppRoutes.Ciudadano.CrearReporte.route) },
-                    onNavigateToMisReportes  = { navController.navigate(AppRoutes.Ciudadano.MisReportes.route) },
+                    onNavigateToMapa         = { navController.navigate(NavController.Ciudadano.Mapa.route) },
+                    onNavigateToCrearReporte = { navController.navigate(NavController.Ciudadano.CrearReporte.route) },
+                    onNavigateToMisReportes  = { navController.navigate(NavController.Ciudadano.MisReportes.route) },
                     onLogout = {
                         sessionManager.clearSession()
-                        navController.navigate(AppRoutes.Publico.Inicio.route) {
+                        navController.navigate(NavController.Publico.Inicio.route) {
                             popUpTo(0) { inclusive = true }
                         }
                     }
@@ -144,9 +142,9 @@ fun NavGraph(
                 navController  = navController
             ) {
                 PanelAdminScreen(
-                    onNavigateToMapa     = { navController.navigate(AppRoutes.Admin.Mapa.route) },
-                    onNavigateToReportes = { navController.navigate(AppRoutes.Admin.Reportes.route) },
-                    onNavigateToEstado   = { navController.navigate(AppRoutes.Admin.EstadoRepo.route) },
+                    onNavigateToMapa     = { navController.navigate(NavController.Admin.Mapa.route) },
+                    onNavigateToReportes = { navController.navigate(NavController.Admin.Reportes.route) },
+                    onNavigateToEstado   = { navController.navigate(NavController.Admin.EstadoRepo.route) },
                     onLogout = {
                         sessionManager.clearSession()
                         navController.navigate(NavController.Publico.Inicio.route) {
@@ -157,7 +155,7 @@ fun NavGraph(
             }
         }
 
-        composable(NavHostController.Admin.Mapa.route) {
+        composable(NavController.Admin.Mapa.route) {
             GuardedRoute(
                 requiredRol    = "ADMIN",
                 sessionManager = sessionManager,

@@ -10,7 +10,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,13 +17,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-private val SarcGreen        = Color(0xFF00A878)
-private val SarcGreenDark    = Color(0xFF008F66)
-private val CardTransparent  = Color(0x33FFFFFF)
-private val White            = Color(0xFFFFFFFF)
-private val WhiteAlpha70     = Color(0xB3FFFFFF)
-private val WhiteAlpha50     = Color(0x80FFFFFF)
+import com.williamsel.sarc.ui.theme.SarcTheme
 
 @Composable
 fun InicioScreen(
@@ -36,7 +29,7 @@ fun InicioScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(SarcGreen)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         Column(
             modifier = Modifier
@@ -46,17 +39,21 @@ fun InicioScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
+            // Logo
             Box(
                 modifier = Modifier
                     .size(88.dp)
-                    .background(White, RoundedCornerShape(22.dp)),
+                    .background(
+                        MaterialTheme.colorScheme.onPrimary,
+                        RoundedCornerShape(22.dp)
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = "S",
                     fontSize = 44.sp,
                     fontWeight = FontWeight.Bold,
-                    color = SarcGreen
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
 
@@ -66,7 +63,7 @@ fun InicioScreen(
                 text = "SARC",
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
-                color = White
+                color = MaterialTheme.colorScheme.onPrimary
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -74,7 +71,7 @@ fun InicioScreen(
             Text(
                 text = "Sistema de Atención a\nReportes Ciudadanos",
                 fontSize = 15.sp,
-                color = WhiteAlpha70,
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center,
                 lineHeight = 22.sp
             )
@@ -104,14 +101,14 @@ fun InicioScreen(
                     .height(54.dp),
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = White
+                    containerColor = MaterialTheme.colorScheme.onPrimary,
+                    contentColor = MaterialTheme.colorScheme.primary
                 )
             ) {
                 Text(
                     text = "Iniciar Sesión",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = SarcGreen
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -124,15 +121,17 @@ fun InicioScreen(
                     .height(54.dp),
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = White
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-                border = androidx.compose.foundation.BorderStroke(2.dp, White)
+                border = androidx.compose.foundation.BorderStroke(
+                    2.dp,
+                    MaterialTheme.colorScheme.onPrimary
+                )
             ) {
                 Text(
                     text = "Crear Cuenta Nueva",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = White
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -141,7 +140,7 @@ fun InicioScreen(
             Text(
                 text = "Municipio de Suchiapa, Chiapas 2026",
                 fontSize = 11.sp,
-                color = WhiteAlpha50,
+                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f),
                 textAlign = TextAlign.Center
             )
 
@@ -155,7 +154,7 @@ fun InicioScreen(
                     Text(
                         text = "Términos y\nCondiciones",
                         fontSize = 12.sp,
-                        color = WhiteAlpha70,
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                         textAlign = TextAlign.Center,
                         textDecoration = TextDecoration.Underline,
                         lineHeight = 17.sp
@@ -165,14 +164,14 @@ fun InicioScreen(
                 Text(
                     text = "•",
                     fontSize = 14.sp,
-                    color = WhiteAlpha50
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.5f)
                 )
 
                 TextButton(onClick = onPrivacidad, contentPadding = PaddingValues(0.dp)) {
                     Text(
                         text = "Políticas\nde Privacidad",
                         fontSize = 12.sp,
-                        color = WhiteAlpha70,
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                         textAlign = TextAlign.Center,
                         textDecoration = TextDecoration.Underline,
                         lineHeight = 17.sp
@@ -192,7 +191,9 @@ private fun FeatureCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = CardTransparent),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f)
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Row(
@@ -203,13 +204,16 @@ private fun FeatureCard(
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(CardTransparent, RoundedCornerShape(12.dp)),
+                    .background(
+                        MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.2f),
+                        RoundedCornerShape(12.dp)
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -218,13 +222,13 @@ private fun FeatureCard(
                     text = title,
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
-                    color = White
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = description,
                     fontSize = 13.sp,
-                    color = WhiteAlpha70,
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
                     lineHeight = 18.sp
                 )
             }

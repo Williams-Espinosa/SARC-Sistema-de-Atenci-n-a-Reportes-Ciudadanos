@@ -13,7 +13,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,11 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.williamsel.sarc.ui.theme.SarcTheme
-private val WarningBg     = Color(0xFFFFF8E1)
-private val WarningBorder = Color(0xFFFFE082)
-private val WarningText   = Color(0xFF5D4037)
-private val WarningTitle  = Color(0xFF4E342E)
-private val WarningIcon   = Color(0xFF795548)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,12 +37,12 @@ fun PolideprivaScreen(
                             text = "Políticas de Privacidad",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "Última actualización: 20 de marzo, 2026",
                             fontSize = 11.sp,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 },
@@ -57,12 +51,12 @@ fun PolideprivaScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "Volver",
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         },
@@ -252,8 +246,10 @@ fun PolideprivaScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = WarningBg),
-                border = BorderStroke(1.dp, WarningBorder)
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                ),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.error.copy(alpha = 0.4f))
             ) {
                 Row(
                     modifier = Modifier.padding(16.dp),
@@ -263,13 +259,16 @@ fun PolideprivaScreen(
                     Box(
                         modifier = Modifier
                             .size(36.dp)
-                            .background(WarningBorder, CircleShape),
+                            .background(
+                                MaterialTheme.colorScheme.error.copy(alpha = 0.2f),
+                                CircleShape
+                            ),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             imageVector = Icons.Default.Warning,
                             contentDescription = null,
-                            tint = WarningIcon,
+                            tint = MaterialTheme.colorScheme.error,
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -278,7 +277,7 @@ fun PolideprivaScreen(
                             text = "Aviso Importante",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
-                            color = WarningTitle
+                            color = MaterialTheme.colorScheme.onErrorContainer
                         )
                         Spacer(modifier = Modifier.height(6.dp))
                         Text(
@@ -287,7 +286,7 @@ fun PolideprivaScreen(
                                     "así como por las disposiciones aplicables en materia de protección " +
                                     "de datos personales en el Estado de Chiapas.",
                             fontSize = 12.sp,
-                            color = WarningText,
+                            color = MaterialTheme.colorScheme.onErrorContainer,
                             lineHeight = 18.sp
                         )
                     }
@@ -298,6 +297,7 @@ fun PolideprivaScreen(
         }
     }
 }
+
 @Composable
 private fun WelcomeCard() {
     Card(

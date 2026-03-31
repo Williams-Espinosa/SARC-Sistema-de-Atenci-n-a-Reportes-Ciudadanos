@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.williamsel.sarc.login.domain.usecases.GetIdloginUseCase
+import com.williamsel.sarc.login.domain.usecases.postIdloginUseCase
 import com.williamsel.sarc.login.presentacion.LoginUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val getIdloginUseCase: GetIdloginUseCase
+    private val getIdloginUseCase: postIdloginUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<LoginUIState>(LoginUIState.Idle)
@@ -43,7 +43,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = LoginUIState.Loading
             try {
-                val resultado = getIdloginUseCase(correo, contrasena)
+                val resultado = postIdloginUseCase(correo, contrasena)
                 if (resultado != null) {
                     _uiState.value = LoginUIState.Success
                 } else {
