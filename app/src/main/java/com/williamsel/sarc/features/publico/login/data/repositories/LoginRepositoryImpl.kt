@@ -31,11 +31,6 @@ class LoginRepositoryImpl @Inject constructor(
         }
     }
 
-    /**
-     * Restaura la sesión al iniciar la app:
-     * 1. Obtiene un idToken fresco de Firebase (si hay sesión activa)
-     * 2. Lo envía al backend para validar y obtener JWT + rol actualizados
-     */
     override suspend fun restaurarSesion(): Login? {
         return try {
             val freshToken = googleAuthUiClient.getFreshIdToken() ?: return null

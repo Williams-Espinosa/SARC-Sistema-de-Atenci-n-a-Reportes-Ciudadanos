@@ -5,7 +5,6 @@ plugins {
     // Activa Hilt y KSP
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
-
     // Firebase
     id("com.google.gms.google-services")
 }
