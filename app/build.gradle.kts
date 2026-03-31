@@ -5,6 +5,9 @@ plugins {
     // Activa Hilt y KSP
     alias(libs.plugins.devtools.ksp)
     alias(libs.plugins.hilt.android)
+
+    // Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -88,6 +91,15 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0") //Mpas google
     implementation("com.airbnb.android:lottie-compose:6.4.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 
     // WorkManager (sincronización en background)
