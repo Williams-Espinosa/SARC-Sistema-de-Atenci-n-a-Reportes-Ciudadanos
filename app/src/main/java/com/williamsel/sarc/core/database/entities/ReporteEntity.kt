@@ -39,32 +39,26 @@ data class ReporteEntity(
     @ColumnInfo(name = "id_reporte")
     val idReporte: Int = 0,
 
-    /** Título/nombre del reporte (VARCHAR 250) */
     @ColumnInfo(name = "nombre")
     val nombre: String,
 
     @ColumnInfo(name = "descripcion")
     val descripcion: String,
-
-    /**
-     * URL o ruta de la imagen almacenada (VARCHAR 500).
-     * En Room se guarda como String, no como ByteArray.
-     */
     @ColumnInfo(name = "imagen")
     val imagen: String? = null,
 
-    /** DECIMAL(10,8) — latitud de la incidencia */
     @ColumnInfo(name = "latitud")
     val latitud: Double,
 
-    /** DECIMAL(11,8) — longitud de la incidencia */
+    @ColumnInfo(name = "ubicacion")
+    val ubicacion: String,
+
+    @ColumnInfo(name = "idReportes")
+    val idReportes: Int? = null,
+
     @ColumnInfo(name = "longitud")
     val longitud: Double,
 
-    /**
-     * Timestamp en milisegundos (equivalente a CURRENT_TIMESTAMP en Postgres).
-     * Usar System.currentTimeMillis() al insertar si es null.
-     */
     @ColumnInfo(name = "fecha_reporte")
     val fechaReporte: Long? = System.currentTimeMillis(),
 
@@ -74,7 +68,8 @@ data class ReporteEntity(
     @ColumnInfo(name = "id_incidencia")
     val idIncidencia: Int? = null,
 
-    /** Default 1 — estado inicial del reporte */
     @ColumnInfo(name = "id_estado")
     val idEstado: Int? = 1
-)
+) {
+    val idInsidencias: Any
+}
