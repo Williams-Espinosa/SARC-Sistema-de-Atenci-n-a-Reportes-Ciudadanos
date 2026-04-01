@@ -9,7 +9,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-
 private val LightColorScheme = lightColorScheme(
     primary          = SarcGreen,
     onPrimary        = SurfaceWhite,
@@ -25,6 +24,7 @@ private val LightColorScheme = lightColorScheme(
     error            = ErrorRed,
     onError          = SurfaceWhite
 )
+
 private val DarkColorScheme = darkColorScheme(
     primary          = SarcGreen,
     onPrimary        = DarkNavy,
@@ -41,10 +41,9 @@ private val DarkColorScheme = darkColorScheme(
     onError          = SurfaceWhite
 )
 
-
 @Composable
 fun SarcTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean    = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
